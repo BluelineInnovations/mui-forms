@@ -52,8 +52,8 @@ export default function Search(props: IProps) {
                 onChange={(e, val) => {
                     const actualValue = val?.value
                         ? val.value
-                        : inputEv?.value && val && val[inputEv.value]
-                        ? val[inputEv.value]
+                        : inputEv?.value && val && (val as any)[inputEv.value]
+                        ? (val as any)[inputEv.value]
                         : "";
                     props.handleChange(e, actualValue, val !== null ? val : undefined);
                     props.handleValidation();

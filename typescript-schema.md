@@ -64,7 +64,8 @@ interface IMeta {
 interface IOption {
     value: string;
     label: string;
-    ref?: any;  // reference to original object
+    ref?: any;
+    [key: string]: any; // This allows string indexing
 }
 
 interface IURLLoaderConfig {
@@ -77,7 +78,7 @@ interface IURLLoaderConfig {
     labelKey?: string;
     loadOn?: Array<string>;
     openTo?: string;        // for calendar -- year, month, day
-    inputFormat?: string;   // for calendar 
+    inputFormat?: string;   // for calendar
     views?: string;         // for calendar
 }
 interface IIconConfig {
@@ -163,7 +164,7 @@ interface IDependency {
 
 interface IBaseDependency {
     section: string;
-    ref: string;    
+    ref: string;
     value: string;
 }
 
@@ -185,7 +186,7 @@ interface IEqualsDependency extends IBaseDependency {
 }
 
 interface IDisplayTypeDependency extends IBaseDependency {
-    
+
 }
 interface ILoader {
 
@@ -212,7 +213,7 @@ interface IMUITheme {
 }
 
 interface IBootstrapTheme {
-    
+
 }
 
 interface IClickEvent {

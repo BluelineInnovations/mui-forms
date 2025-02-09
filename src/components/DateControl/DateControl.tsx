@@ -9,6 +9,7 @@ import { FormUtils, MSGS, ValidationUtil } from "@manojadams/metaforms-core";
 import { TextField, TextFieldVariants } from "@mui/material";
 import MuiFormUtil from "../../Utils/MuiFormUtil";
 import { DEFAULT_DATE_FORMAT } from "../../forms/ constants";
+import { parse } from "date-fns";
 
 interface IProps extends IFieldProps {
     section: string;
@@ -17,7 +18,7 @@ interface IProps extends IFieldProps {
 function DateControl(props: IProps) {
     const label = MuiFormUtil.getDisplayLabel(props.form);
     const dateString = props.form?.value ? props.form.value + "" : "";
-    const value = props.form?.value ? new Date(dateString) : null;
+    const value = props.form?.value ? parse(dateString, "yyyy-MM-dd", new Date()) : null;
     const variant = props.variant;
     const min = props.form.validation?.min
         ? new Date(ValidationUtil.getValidationValue(props.form.validation, "min") as string)

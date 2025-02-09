@@ -29,8 +29,7 @@ function RadioButtonControl(props: IProps) {
             switch (datatype) {
                 case "boolean":
                     {
-                        // eslint-disable-next-line dot-notation
-                        const val = e.target["value"] === "true";
+                        const val = (e.target as HTMLButtonElement).value === "true";
                         props.handleChange(e, val);
                     }
                     break;
