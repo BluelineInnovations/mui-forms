@@ -1,6 +1,6 @@
 import { Autocomplete, Box, LinearProgress, TextField } from "@mui/material";
 import React, { Fragment, useEffect, useState } from "react";
-import { IError, MetaForm, IConfig, IOption, FormUtils, IFormField } from "@manojadams/metaforms-core";
+import { FormUtils, IConfig, IError, IFormField, IOption, MetaForm } from "@manojadams/metaforms-core";
 import { TVariant } from "../../forms/constants";
 import { TValue } from "@manojadams/metaforms-core/dist/constants/types";
 
@@ -16,23 +16,24 @@ interface IProps {
     section: string;
     size?: "small" | "medium";
     error: IError;
-    handleChange: (e: React.SyntheticEvent, val1: TValue, val2: IOption | undefined) => void;
+    handleChange: (e: React.SyntheticEvent, val1: TValue | TValue[], val2: IOption | undefined) => void;
     handleValidation: () => void;
 }
 
-export default function Search(props: IProps) {
+export default function MultiSearch(props: IProps) {
     const [loading, setLoading] = useState(false);
     const [options, setOptions] = useState(props.form.options ?? []);
-    const [value, setValue] = useState<IOption | null>(null);
-    const inputEv = props.form.events?.input;
+    const [value, setValue] = useState<IOption[]>([]);
 
     useEffect(() => {
         if (props.form.options && props.form.options.length > 0) {
-            const value = FormUtils.getSearchValue(props.form.options, props.form.value);
+            const fieldValues = props.form?.value || [];
+            const values = fieldValues
+                // @ts-expect-error mateform-core expect value to be string (despite having multiselect which use array as value)
+                .map((value: IOption) => FormUtils.getSearchValue(props.form.options, value) || undefined)
+                .filter(Boolean) as IOption[];
             setOptions(props.form.options);
-            if (value) {
-                setValue(value as IOption);
-            }
+            setValue(values);
         }
     }, [props.form.options]);
 
@@ -45,22 +46,18 @@ export default function Search(props: IProps) {
             <Autocomplete
                 className={props.className}
                 value={value}
+                multiple
                 options={options}
                 loading={loading}
                 size={props.size}
                 isOptionEqualToValue={(option, value) => value && value.value === option.value}
-                onChange={(e, val) => {
-                    const actualValue = val?.value
-                        ? val.value
-                        : inputEv?.value && val && (val as any)[inputEv.value]
-                        ? (val as any)[inputEv.value]
-                        : "";
-                    props.handleChange(e, actualValue, val !== null ? val : undefined);
+                onChange={(e, values) => {
+                    const currentValues = value.map((v) => v.value);
+                    const ref = values.find((r) => !currentValues.includes(r.value));
+                    const newValues = values.map((o) => o.value);
+                    setValue(values);
+                    props.handleChange(e, newValues, ref);
                     props.handleValidation();
-                    if (val) {
-                        setValue(val);
-                        props.handleValidation();
-                    }
                 }}
                 onBlur={() => props.handleValidation()}
                 onInputChange={(e, val: string) => {

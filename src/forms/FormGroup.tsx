@@ -3,7 +3,7 @@ import { BaseFormGroup, Sections, IField, ISchema } from "@manojadams/metaforms-
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Box } from "@mui/material";
-import { TTabVariant } from "./ constants";
+import { TTabVariant } from "./constants";
 
 export default class FormGroup extends BaseFormGroup {
     // eslint-disable-next-line no-useless-constructor

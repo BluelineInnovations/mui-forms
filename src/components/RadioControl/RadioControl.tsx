@@ -2,7 +2,7 @@ import React from "react";
 import { IFieldProps } from "../../common/field";
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 import MandatoryLabel from "../../common/MandatoryLabel";
-import { TLabelPlacement } from "../../forms/ constants";
+import { TLabelPlacement } from "../../forms/constants";
 
 function RadioControl(props: IFieldProps) {
     const isRow = props.form?.displayProps?.optionsLayout === "row" ? true : undefined;
