@@ -2,7 +2,8 @@ import React, { Fragment } from "react";
 import { BaseFormControl, IRenderField } from "@manojadams/metaforms-core";
 import { Button, FormHelperText, TextField, TextFieldProps } from "@mui/material";
 import MuiSearch from "../components/Search/Search";
-import { TVariant } from "./ constants";
+import MuiMultiSearch from "../components/MultiSearch/MultiSearch";
+import { TVariant } from "./constants";
 
 import NumberFormatter from "../components/NumberFormatter";
 import PhoneControl from "../components/PhoneControl";
@@ -291,7 +292,24 @@ export default class FormControl extends BaseFormControl {
 
     search() {
         const restConfig = this.context.getRestConfig();
-        return (
+        // @ts-expect-error custom config for multiselect
+        return this.field.meta?.select === "multiple" ? (
+            <MuiMultiSearch
+                className={this.getWrapperClassName()}
+                name={this.field.name}
+                form={this.props.form}
+                label={this.getDisplayLabel() || ""}
+                variant={this.getVariant()}
+                config={restConfig}
+                handleChange={this.handleChange}
+                handleValidation={this.handleValidation}
+                context={this.context}
+                section={this.section}
+                error={this.state.error}
+                loading={this.state.loading}
+                size={this.size}
+            />
+        ) : (
             <MuiSearch
                 className={this.getWrapperClassName()}
                 name={this.field.name}

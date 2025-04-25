@@ -2,7 +2,7 @@ import React, { ChangeEvent } from "react";
 import { IFieldProps } from "../../common/field";
 import MuiFormUtil from "../../Utils/MuiFormUtil";
 import { Box, FormControl, InputLabel, LinearProgress, MenuItem, Select } from "@mui/material";
-import { TVariant } from "../../forms/ constants";
+import { TVariant } from "../../forms/constants";
 
 interface IProps extends IFieldProps {
     handleOpen: () => void;
