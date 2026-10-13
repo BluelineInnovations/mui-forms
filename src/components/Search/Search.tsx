@@ -56,11 +56,8 @@ export default function Search(props: IProps) {
                         ? (val as any)[inputEv.value]
                         : "";
                     props.handleChange(e, actualValue, val !== null ? val : undefined);
+                    setValue(val);
                     props.handleValidation();
-                    if (val) {
-                        setValue(val);
-                        props.handleValidation();
-                    }
                 }}
                 onBlur={() => props.handleValidation()}
                 onInputChange={(e, val: string) => {
